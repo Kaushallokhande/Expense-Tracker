@@ -1,5 +1,6 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon, CogIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon, CogIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { Link } from "react-router-dom";
 
 const navigation = [
     { name: 'Home', href: '/home' },
@@ -7,10 +8,10 @@ const navigation = [
     { name: 'Assistant', href: 'https://anti-doping.vercel.app/chat' },
     { name: 'Our Team', href: '/team' },
     { name: 'Contact us', href: '/contact' },
-]
+];
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
 export default function Navbar() {
@@ -38,17 +39,32 @@ export default function Navbar() {
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        aria-current={item.current ? 'page' : undefined}
-                                        className={classNames(
-                                            item.current ? 'bg-blue-900 text-white' : 'text-white hover:bg-blue-700',
-                                            'rounded-md px-3 py-2 text-sm font-medium',
-                                        )}
-                                    >
-                                        {item.name}
-                                    </a>
+                                    item.href.startsWith('http') ? (
+                                        // External link
+                                        <a
+                                            key={item.name}
+                                            href={item.href}
+                                            rel="noopener noreferrer"
+                                            className={classNames(
+                                                'text-white hover:bg-blue-700',
+                                                'rounded-md px-3 py-2 text-sm font-medium',
+                                            )}
+                                        >
+                                            {item.name}
+                                        </a>
+                                    ) : (
+                                        // Internal link
+                                        <Link
+                                            key={item.name}
+                                            to={item.href}
+                                            className={classNames(
+                                                'text-white hover:bg-blue-700',
+                                                'rounded-md px-3 py-2 text-sm font-medium',
+                                            )}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    )
                                 ))}
                             </div>
                         </div>
@@ -90,20 +106,20 @@ export default function Navbar() {
                             </div>
                             <MenuItems
                                 transition
-                                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none"
                             >
                                 <MenuItem>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Your Profile
                                     </a>
                                 </MenuItem>
                                 <MenuItem>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Settings
                                     </a>
                                 </MenuItem>
                                 <MenuItem>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Sign out
                                     </a>
                                 </MenuItem>
@@ -116,21 +132,31 @@ export default function Navbar() {
             <DisclosurePanel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
                     {navigation.map((item) => (
-                        <DisclosureButton
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            aria-current={item.current ? 'page' : undefined}
-                            className={classNames(
-                                item.current ? 'bg-blue-900 text-white' : 'text-white hover:bg-blue-700',
-                                'block rounded-md px-3 py-2 text-base font-medium',
-                            )}
-                        >
-                            {item.name}
-                        </DisclosureButton>
+                        item.href.startsWith('http') ? (
+                            // External link
+                            <a
+                                key={item.name}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-blue-700"
+                            >
+                                {item.name}
+                            </a>
+                        ) : (
+                            // Internal link
+                            <DisclosureButton
+                                key={item.name}
+                                as={Link}
+                                to={item.href}
+                                className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-blue-700"
+                            >
+                                {item.name}
+                            </DisclosureButton>
+                        )
                     ))}
                 </div>
             </DisclosurePanel>
         </Disclosure>
-    )
+    );
 }

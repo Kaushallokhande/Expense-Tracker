@@ -42,11 +42,3 @@ const people = [
       </div>
     )
   }
-//   <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-//                 <div className="bg-gray-100 p-4 rounded-lg shadow">
-//                     <Bar data={barData} options={barOptions} />
-//                 </div>
-//                 <div className="bg-gray-100 p-4 rounded-lg shadow">
-//                     <Pie data={pieData} options={pieOptions} />
-//                 </div>
-//             </div>
